@@ -1,9 +1,13 @@
 import express from "express";
-import { testRoutes } from "../modules/test/test.route";
+import { categoryRoutes } from "../modules/category/category.route";
+import { productRoutes } from "../modules/product/product.route";
 
 const router = express.Router();
 
-const moduleRoutes = [{ path: "/test", route: testRoutes }];
+const moduleRoutes = [
+  { path: "/categories", route: categoryRoutes },
+  { path: "/products", route: productRoutes },
+];
 
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
 
