@@ -1,6 +1,6 @@
 import sendResponse from "../../utils/sendResponse";
 import httpStatus from "http-status";
-import catchAsync from "../../utils/catchasync";
+import catchAsync from "../../utils/catchAsync";
 import { productServices } from "./product.service";
 
 const handleCreateProduct = catchAsync(async (req, res) => {
