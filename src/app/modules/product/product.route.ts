@@ -15,4 +15,6 @@ router.get("/", productControllers.handleGetAllProducts);
 router.get("/featured", productControllers.handleGetFeaturedProducts);
 router.get("/:id", productControllers.handleGetProductById);
 
+router.post("/stock", productControllers.handleGetProductStock);
+
 export const productRoutes = router;

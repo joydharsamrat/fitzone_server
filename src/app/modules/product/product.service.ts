@@ -76,9 +76,23 @@ const getProductById = async (id: string) => {
   return result;
 };
 
+const getProductStock = async (ids: string[]) => {
+  const products = await Product.find({ _id: { $in: ids } }).select(
+    "_id quantity"
+  );
+  const stockData: { [key: string]: number } = {};
+
+  products.forEach((product) => {
+    stockData[product._id.toString()] = product.quantity;
+  });
+
+  return stockData;
+};
+
 export const productServices = {
   createProduct,
   getAllProducts,
   getFeaturedProducts,
   getProductById,
+  getProductStock,
 };

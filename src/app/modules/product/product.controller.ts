@@ -47,10 +47,21 @@ const handleGetProductById = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const handleGetProductStock = catchAsync(async (req, res) => {
+  const result = await productServices.getProductStock(req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Products stock retrieved successfully",
+    data: result,
+  });
+});
 
 export const productControllers = {
   handleCreateProduct,
   handleGetAllProducts,
   handleGetFeaturedProducts,
   handleGetProductById,
+  handleGetProductStock,
 };
