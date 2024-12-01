@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(cookieParser());
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://fit-zone-three.vercel.app/",
+  "https://fit-zone-three.vercel.app",
 ];
 app.use(
   cors({
