@@ -12,7 +12,28 @@ import { sendEmail } from "../../utils/sendEmail";
 
 const userSignUp = async (payload: TUser) => {
   const result = await User.create(payload);
-  return { data: result };
+
+  const jwtPayload = {
+    _id: result._id,
+    email: result.email,
+    role: result.role,
+  };
+
+  const accessToken = createToken(
+    jwtPayload,
+    config.jwt_access_token_secret as string,
+    config.jwt_access_expires_in as string
+  );
+
+  const refreshToken = createToken(
+    jwtPayload,
+    config.jwt_refresh_token_secret as string,
+    config.jwt_refresh_expires_in as string
+  );
+
+  result.password = "";
+
+  return { accessToken, refreshToken };
 };
 
 const loginUser = async (payload: TAuth) => {
@@ -50,7 +71,7 @@ const loginUser = async (payload: TAuth) => {
 
   user.password = "";
 
-  return { accessToken, refreshToken, data: user };
+  return { accessToken, refreshToken };
 };
 
 const getAccessToken = async (token: string) => {

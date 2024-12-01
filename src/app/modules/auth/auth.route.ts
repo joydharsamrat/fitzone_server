@@ -8,7 +8,6 @@ const router = express.Router();
 
 router.post(
   "/signup",
-
   validateRequest(authValidationSchemas.userSignUpValidationSchema),
   authControllers.handleUserSignUp
 );

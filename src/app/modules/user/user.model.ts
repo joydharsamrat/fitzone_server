@@ -12,7 +12,6 @@ const userSchema = new Schema<TUser, TUserModel>(
       type: Date,
     },
     role: { type: String, enum: ["user", "admin"], default: "user" },
-    phone: { type: String, required: true, unique: true },
   },
   { timestamps: true }
 );

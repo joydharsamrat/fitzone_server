@@ -7,11 +7,19 @@ import config from "../../config";
 const handleUserSignUp = catchAsync(async (req, res) => {
   const result = await authServices.userSignUp(req.body);
 
+  const { accessToken, refreshToken } = result;
+
+  res.cookie("refreshToken", refreshToken, {
+    secure: config.node_ENV === "production",
+    httpOnly: true,
+    sameSite: config.node_ENV === "production" ? "none" : "lax",
+  });
+
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "User created successfully",
-    data: result,
+    message: "User logged in successfully",
+    data: { token: accessToken },
   });
 });
 

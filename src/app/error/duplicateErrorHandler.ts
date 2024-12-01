@@ -19,7 +19,7 @@ const handleDuplicateError = (err: any): TGenericResponse => {
 
   return {
     statusCode,
-    message: "Invalid ID",
+    message: "Email already exists",
     errorSources,
   };
 };

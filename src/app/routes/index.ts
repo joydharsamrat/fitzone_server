@@ -3,6 +3,8 @@ import { categoryRoutes } from "../modules/category/category.route";
 import { productRoutes } from "../modules/product/product.route";
 import { imageRoutes } from "../modules/imageGallery/images.route";
 import { testimonialRoutes } from "../modules/testimonials/testimonials.route";
+import { authRoutes } from "../modules/auth/auth.route";
+import { userRoutes } from "../modules/user/user.route";
 
 const router = express.Router();
 
@@ -11,6 +13,8 @@ const moduleRoutes = [
   { path: "/products", route: productRoutes },
   { path: "/images", route: imageRoutes },
   { path: "/testimonials", route: testimonialRoutes },
+  { path: "/auth", route: authRoutes },
+  { path: "/user", route: userRoutes },
 ];
 
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
