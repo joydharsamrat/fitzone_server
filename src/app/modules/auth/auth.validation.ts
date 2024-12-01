@@ -43,7 +43,7 @@ const changePasswordValidationSchema = z.object({
 });
 
 const forgotPasswordValidationSchema = z.object({
-  bosy: z.object({
+  body: z.object({
     email: z
       .string({ required_error: "Email is required" })
       .email({ message: "Email address must be valid !" }),

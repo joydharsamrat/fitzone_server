@@ -20,7 +20,6 @@ router.post(
 
 router.post(
   "/access-token",
-
   validateRequest(authValidationSchemas.refreshTokenValidationSchema),
   authControllers.handleGetAccessToken
 );
