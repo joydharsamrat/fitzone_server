@@ -6,6 +6,8 @@ import { testimonialRoutes } from "../modules/testimonials/testimonials.route";
 import { authRoutes } from "../modules/auth/auth.route";
 import { userRoutes } from "../modules/user/user.route";
 import { cartRoutes } from "../modules/cart/cart.route";
+import { paymentRoutes } from "../modules/Payment/payment.route";
+import { orderRoutes } from "../modules/order/order.route";
 
 const router = express.Router();
 
@@ -17,6 +19,8 @@ const moduleRoutes = [
   { path: "/auth", route: authRoutes },
   { path: "/user", route: userRoutes },
   { path: "/cart", route: cartRoutes },
+  { path: "/payment", route: paymentRoutes },
+  { path: "/orders", route: orderRoutes },
 ];
 
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
