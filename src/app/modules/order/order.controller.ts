@@ -14,7 +14,19 @@ const handleCreateOrder = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const handleGetOrderByUserId = catchAsync(async (req, res) => {
+  const { _id } = req.user;
+  const result = await orderServices.getOrdersByUserId(_id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Order retrieved successfully",
+    data: result,
+  });
+});
 
 export const orderControllers = {
   handleCreateOrder,
+  handleGetOrderByUserId,
 };

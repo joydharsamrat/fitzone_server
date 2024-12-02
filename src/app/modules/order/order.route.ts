@@ -13,5 +13,6 @@ router.post(
   validateRequest(orderValidationSchemas.createOrderValidationSchema),
   orderControllers.handleCreateOrder
 );
+router.get("/user", auth("user"), orderControllers.handleGetOrderByUserId);
 
 export const orderRoutes = router;

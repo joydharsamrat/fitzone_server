@@ -61,6 +61,14 @@ const createOrder = async (userId: string, payload: TOrder) => {
   }
 };
 
+const getOrdersByUserId = async (id: string) => {
+  const result = await Order.find({ user: id })
+    .populate("user")
+    .sort("-createdAt");
+  return result;
+};
+
 export const orderServices = {
   createOrder,
+  getOrdersByUserId,
 };

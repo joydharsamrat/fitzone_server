@@ -14,7 +14,7 @@ const CustomerDetailsSchema = new Schema<TCustomerDetails>({
 
 // Product schema
 const ProductSchema = new Schema<TProductData>({
-  productId: { type: Schema.Types.ObjectId, ref: "Product", required: true },
+  productId: { type: Schema.Types.ObjectId, ref: "product", required: true },
   name: { type: String, required: true },
   price: { type: Number, required: true },
   quantity: { type: Number, required: true },
@@ -24,7 +24,7 @@ const ProductSchema = new Schema<TProductData>({
 
 const OrderDataSchema = new Schema<TOrder>(
   {
-    user: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    user: { type: Schema.Types.ObjectId, ref: "user", required: true },
     transactionId: { type: String, required: true },
     customerDetails: { type: CustomerDetailsSchema, required: true },
     products: { type: [ProductSchema], required: true },
