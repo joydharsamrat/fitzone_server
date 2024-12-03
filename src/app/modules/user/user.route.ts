@@ -4,8 +4,8 @@ import auth from "../../middlewares/auth";
 
 const router = express.Router();
 
-router.get("/", userControllers.handleGetUsers);
-router.get("/:id", auth("user"), userControllers.handleGetUserById);
+router.get("/", auth("admin"), userControllers.handleGetUsers);
+router.get("/user", auth("user"), userControllers.handleGetUserById);
 
 router.put("/make-admin", auth("admin"), userControllers.handleMakeAdmin);
 

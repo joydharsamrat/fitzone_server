@@ -8,7 +8,9 @@ const updateUserValidationSchema = z.object({
     .optional(),
   password: z.string({ required_error: "Password is required" }).optional(),
   role: z.enum(["user", "admin"]).optional().optional(),
-  address: z.string({ required_error: "Address is required" }).optional(),
+  address: z.string().optional(),
+  phone: z.string().optional(),
+  image: z.string().optional(),
 });
 export const userValidationSchemas = {
   updateUserValidationSchema,

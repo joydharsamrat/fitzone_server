@@ -21,9 +21,7 @@ const createProductValidationSchema = z.object({
     category: z
       .string({ required_error: "Category is required" })
       .regex(/^[a-fA-F0-9]{24}$/, "Category must be a valid ObjectId"),
-    featured: z
-      .string({ required_error: "Category is required" })
-      .regex(/^[a-fA-F0-9]{24}$/, "Category must be a valid ObjectId"),
+    featured: z.boolean().optional(),
   }),
 });
 

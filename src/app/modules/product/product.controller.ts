@@ -58,10 +58,24 @@ const handleGetProductStock = catchAsync(async (req, res) => {
   });
 });
 
+const handleDeleteProduct = catchAsync(async (req, res) => {
+  const { id } = req.params;
+
+  const result = await productServices.deleteProduct(id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Product deleted successfully",
+    data: result,
+  });
+});
+
 export const productControllers = {
   handleCreateProduct,
   handleGetAllProducts,
   handleGetFeaturedProducts,
   handleGetProductById,
   handleGetProductStock,
+  handleDeleteProduct,
 };

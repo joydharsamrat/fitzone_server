@@ -17,7 +17,7 @@ const moduleRoutes = [
   { path: "/images", route: imageRoutes },
   { path: "/testimonials", route: testimonialRoutes },
   { path: "/auth", route: authRoutes },
-  { path: "/user", route: userRoutes },
+  { path: "/users", route: userRoutes },
   { path: "/cart", route: cartRoutes },
   { path: "/payment", route: paymentRoutes },
   { path: "/orders", route: orderRoutes },

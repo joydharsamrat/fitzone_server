@@ -8,4 +8,5 @@ export type TProduct = {
   images: string[];
   category: Types.ObjectId;
   featured?: boolean;
+  isDeleted?: boolean;
 };

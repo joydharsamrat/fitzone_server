@@ -8,6 +8,10 @@ const userSignUpValidationSchema = z.object({
       .email({ message: "Email address must be valid !" }),
     password: z.string({ required_error: "Password is required" }),
     role: z.enum(["user", "admin"]).optional(),
+
+    address: z.string().optional(),
+    phone: z.string().optional(),
+    image: z.string().optional(),
   }),
 });
 

@@ -3,7 +3,7 @@ import { User } from "./user.model";
 
 const getUsers = async () => {
   const result = await User.find();
-  return { data: result };
+  return result;
 };
 const getUserById = async (id: string) => {
   const result = await User.findById(id);

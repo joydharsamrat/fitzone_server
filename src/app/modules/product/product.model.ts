@@ -1,8 +1,9 @@
 // product.model.ts
 import { Schema, model } from "mongoose";
+import { TProduct } from "./product.interface";
 
 // Define the Product schema
-const productSchema = new Schema(
+const productSchema = new Schema<TProduct>(
   {
     name: {
       type: String,
@@ -38,10 +39,11 @@ const productSchema = new Schema(
     featured: {
       type: Boolean,
     },
+    isDeleted: { type: Boolean, default: false },
   },
   {
     timestamps: true,
   }
 );
 
-export const Product = model("Product", productSchema);
+export const Product = model<TProduct>("Product", productSchema);

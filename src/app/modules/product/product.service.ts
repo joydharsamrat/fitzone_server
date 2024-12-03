@@ -1,3 +1,5 @@
+import httpStatus from "http-status";
+import AppError from "../../error/appError";
 import { TProduct } from "./product.interface";
 import { Product } from "./product.model";
 
@@ -61,7 +63,10 @@ const getAllProducts = async (query: Record<string, unknown>) => {
   const limit = Number(query.limit) || 8;
   const skip = (page - 1) * limit;
 
-  const result = await sortQuery.limit(limit).skip(skip);
+  const result = await sortQuery
+    .find({ isDeleted: { $ne: true } })
+    .limit(limit)
+    .skip(skip);
 
   return result;
 };
@@ -89,10 +94,23 @@ const getProductStock = async (ids: string[]) => {
   return stockData;
 };
 
+const deleteProduct = async (id: string) => {
+  const product = await Product.findById(id);
+  if (!product) {
+    throw new AppError(httpStatus.NOT_FOUND, "Product not found");
+  }
+  const result = await Product.findByIdAndUpdate(id, {
+    $set: { isDeleted: true },
+  });
+
+  return result;
+};
+
 export const productServices = {
   createProduct,
   getAllProducts,
   getFeaturedProducts,
   getProductById,
   getProductStock,
+  deleteProduct,
 };
