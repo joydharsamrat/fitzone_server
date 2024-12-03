@@ -14,6 +14,7 @@ router.post(
 router.get("/", productControllers.handleGetAllProducts);
 router.get("/featured", productControllers.handleGetFeaturedProducts);
 router.get("/:id", productControllers.handleGetProductById);
+router.put("/:id", productControllers.handleUpdateProduct);
 
 router.post("/stock", productControllers.handleGetProductStock);
 router.delete("/:id", productControllers.handleDeleteProduct);

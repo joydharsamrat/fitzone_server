@@ -94,6 +94,24 @@ const getProductStock = async (ids: string[]) => {
   return stockData;
 };
 
+const updateProduct = async (id: string, payload: Partial<TProduct>) => {
+  const product = await Product.findById(id);
+
+  if (!product) {
+    throw new AppError(httpStatus.FORBIDDEN, "Data not found");
+  } else if (product.isDeleted) {
+    throw new AppError(httpStatus.FORBIDDEN, "Product is deleted");
+  }
+
+  const result = await Product.findByIdAndUpdate(
+    id,
+    { $set: { ...payload } },
+    { new: true }
+  );
+
+  return result;
+};
+
 const deleteProduct = async (id: string) => {
   const product = await Product.findById(id);
   if (!product) {
@@ -112,5 +130,6 @@ export const productServices = {
   getFeaturedProducts,
   getProductById,
   getProductStock,
+  updateProduct,
   deleteProduct,
 };
