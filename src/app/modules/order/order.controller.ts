@@ -26,7 +26,30 @@ const handleGetOrderByUserId = catchAsync(async (req, res) => {
   });
 });
 
+const handleGetAllOrders = catchAsync(async (req, res) => {
+  const result = await orderServices.getAllOrders();
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Orders retrieved successfully",
+    data: result,
+  });
+});
+
+const handleUpdateOrderStatus = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await orderServices.updateOrderStatus(id, req.body.status);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Order status updated successfully",
+    data: result,
+  });
+});
+
 export const orderControllers = {
   handleCreateOrder,
   handleGetOrderByUserId,
+  handleGetAllOrders,
+  handleUpdateOrderStatus,
 };

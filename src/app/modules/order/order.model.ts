@@ -30,6 +30,11 @@ const OrderDataSchema = new Schema<TOrder>(
     products: { type: [ProductSchema], required: true },
     shippingCharge: { type: Number, required: true },
     totalPrice: { type: Number, required: true },
+    status: {
+      type: String,
+      enum: ["pending", "shipped", "delivered", "canceled", "returned"],
+      default: "pending",
+    },
   },
   { timestamps: true }
 );

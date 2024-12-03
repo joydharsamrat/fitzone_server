@@ -13,6 +13,14 @@ router.post(
   validateRequest(orderValidationSchemas.createOrderValidationSchema),
   orderControllers.handleCreateOrder
 );
+
+router.get("/", auth("admin"), orderControllers.handleGetAllOrders);
 router.get("/user", auth("user"), orderControllers.handleGetOrderByUserId);
+router.put(
+  "/status/admin/:id",
+
+  auth("admin"),
+  orderControllers.handleUpdateOrderStatus
+);
 
 export const orderRoutes = router;

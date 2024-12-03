@@ -26,4 +26,5 @@ export type TOrder = {
   products: TProductData[];
   shippingCharge: number;
   totalPrice: number;
+  status: "pending" | "shipped" | "delivered" | "canceled" | "returned";
 };

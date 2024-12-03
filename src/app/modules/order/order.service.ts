@@ -6,6 +6,7 @@ import { Order } from "./order.model";
 
 import mongoose from "mongoose";
 import { Product } from "../product/product.model";
+import { OrderStatus } from "./order.constants";
 
 const createOrder = async (userId: string, payload: TOrder) => {
   const session = await mongoose.startSession();
@@ -67,8 +68,75 @@ const getOrdersByUserId = async (id: string) => {
     .sort("-createdAt");
   return result;
 };
+const getAllOrders = async () => {
+  const result = await Order.find().sort("-createdAt");
+  return result;
+};
+
+const updateOrderStatus = async (id: string, newStatus: string) => {
+  //  Find the order by ID
+  const order = await Order.findById(id);
+
+  if (!order) {
+    throw new AppError(httpStatus.NOT_FOUND, "Order not found");
+  }
+
+  const currentStatus = order.status;
+
+  // Validate status based on the current status
+  if (currentStatus === OrderStatus.PENDING) {
+    if (
+      newStatus !== OrderStatus.SHIPPED &&
+      newStatus !== OrderStatus.CANCELED
+    ) {
+      throw new AppError(
+        httpStatus.FORBIDDEN,
+        `Order status can only be updated to "shipped" or "canceled" from "pending".`
+      );
+    }
+  } else if (currentStatus === OrderStatus.SHIPPED) {
+    if (
+      newStatus !== OrderStatus.DELIVERED &&
+      newStatus !== OrderStatus.RETURNED
+    ) {
+      throw new AppError(
+        httpStatus.FORBIDDEN,
+        `Order status can only be updated to "delivered" or "returned" from "shipped".`
+      );
+    }
+  } else if (
+    [
+      OrderStatus.DELIVERED,
+      OrderStatus.CANCELED,
+      OrderStatus.RETURNED,
+    ].includes(currentStatus)
+  ) {
+    throw new AppError(
+      httpStatus.FORBIDDEN,
+      `Order status cannot be updated from "${currentStatus}".`
+    );
+  }
+
+  //  update the order status
+  const result = await Order.findByIdAndUpdate(
+    id,
+    { status: newStatus },
+    { new: true }
+  );
+
+  if (!result) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "Failed to update order status."
+    );
+  }
+
+  return result;
+};
 
 export const orderServices = {
   createOrder,
   getOrdersByUserId,
+  getAllOrders,
+  updateOrderStatus,
 };
