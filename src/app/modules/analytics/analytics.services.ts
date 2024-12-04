@@ -1,6 +1,7 @@
 import { Order } from "../order/order.model";
 import { Product } from "../product/product.model";
 import { User } from "../user/user.model";
+import { startOfDay, startOfWeek, startOfMonth } from "date-fns";
 
 const getStats = async () => {
   // Total Users and breakdown of roles
@@ -50,6 +51,69 @@ const getStats = async () => {
   };
 };
 
-export default getStats;
+const getRevenueData = async () => {
+  const today = startOfDay(new Date());
+  const thisWeekStart = startOfWeek(today);
+  const thisMonthStart = startOfMonth(today);
 
-export const analyticsServices = { getStats };
+  // Aggregate total revenue for today, this week, and this month
+  const revenueData = await Order.aggregate([
+    {
+      $match: {
+        status: { $in: ["shipped", "delivered"] },
+      },
+    },
+    {
+      $group: {
+        _id: {
+          day: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+          week: { $week: "$createdAt" },
+          month: { $month: "$createdAt" },
+        },
+        dailyRevenue: {
+          $sum: {
+            $cond: [{ $gte: ["$createdAt", today] }, "$totalPrice", 0],
+          },
+        },
+        weeklyRevenue: {
+          $sum: {
+            $cond: [{ $gte: ["$createdAt", thisWeekStart] }, "$totalPrice", 0],
+          },
+        },
+        monthlyRevenue: {
+          $sum: {
+            $cond: [{ $gte: ["$createdAt", thisMonthStart] }, "$totalPrice", 0],
+          },
+        },
+      },
+    },
+  ]);
+
+  return revenueData;
+};
+
+const getOrderStatusStats = async () => {
+  const statusStats = await Order.aggregate([
+    {
+      $group: {
+        _id: "$status",
+        count: { $sum: 1 },
+      },
+    },
+    {
+      $project: {
+        status: "$_id",
+        count: 1,
+        _id: 0,
+      },
+    },
+  ]);
+
+  return statusStats;
+};
+
+export const analyticsServices = {
+  getStats,
+  getRevenueData,
+  getOrderStatusStats,
+};
