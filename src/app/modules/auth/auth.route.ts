@@ -18,6 +18,8 @@ router.post(
   authControllers.handleUserLogin
 );
 
+router.post("/logout", authControllers.handleUserLogout);
+
 router.post(
   "/access-token",
   validateRequest(authValidationSchemas.refreshTokenValidationSchema),
