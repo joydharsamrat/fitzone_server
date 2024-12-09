@@ -1,3 +1,4 @@
+import { OrderStatus } from "../order/order.constants";
 import { Order } from "../order/order.model";
 import { Product } from "../product/product.model";
 import { User } from "../user/user.model";
@@ -109,7 +110,21 @@ const getOrderStatusStats = async () => {
     },
   ]);
 
-  return statusStats;
+  // Create an array of all possible statuses with a count of 0 initially
+  const stats = Object.values(OrderStatus).reduce(
+    (acc, status) => {
+      acc[status] = 0; // Default count for each status is 0
+      return acc;
+    },
+    {} as Record<string, number>
+  );
+
+  // Update the stats object with the results from the aggregation
+  statusStats.forEach((item) => {
+    stats[item.status] = item.count; // Assign the count from the aggregation
+  });
+
+  return stats;
 };
 
 export const analyticsServices = {

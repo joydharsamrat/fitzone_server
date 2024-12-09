@@ -16,10 +16,12 @@ router.post(
 
 router.get("/", auth("admin"), orderControllers.handleGetAllOrders);
 router.get("/user", auth("user"), orderControllers.handleGetOrderByUserId);
+
+router.get("/:id", auth("admin"), orderControllers.handleGetOrderById);
+
 router.put(
   "/status/admin/:id",
-
-  auth("admin"),
+  auth("admin", "user"),
   orderControllers.handleUpdateOrderStatus
 );
 

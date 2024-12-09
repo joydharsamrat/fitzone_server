@@ -47,9 +47,21 @@ const handleUpdateOrderStatus = catchAsync(async (req, res) => {
   });
 });
 
+const handleGetOrderById = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await orderServices.getOrderById(id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Order retrieved successfully",
+    data: result,
+  });
+});
+
 export const orderControllers = {
   handleCreateOrder,
   handleGetOrderByUserId,
   handleGetAllOrders,
   handleUpdateOrderStatus,
+  handleGetOrderById,
 };

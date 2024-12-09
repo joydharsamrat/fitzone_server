@@ -134,9 +134,18 @@ const updateOrderStatus = async (id: string, newStatus: string) => {
   return result;
 };
 
+const getOrderById = async (id: string) => {
+  const result = await Order.findById(id).populate("user");
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, "Order not found");
+  }
+  return result;
+};
+
 export const orderServices = {
   createOrder,
   getOrdersByUserId,
   getAllOrders,
   updateOrderStatus,
+  getOrderById,
 };
