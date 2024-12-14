@@ -1,4 +1,7 @@
-export const newsletterEmailTemplate = (year: number) => `
+export const newsletterEmailTemplate = (
+  year: number,
+  unsubscribeUrl: string
+) => `
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,6 +55,15 @@ export const newsletterEmailTemplate = (year: number) => `
       background-color: #F1F1F1;
       padding: 10px;
     }
+    .unsubscribe {
+      font-size: 14px;
+      color: #666666;
+      margin-top: 10px;
+    }
+    .unsubscribe a {
+      color: #184e77;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
@@ -78,7 +90,8 @@ export const newsletterEmailTemplate = (year: number) => `
     </tr>
     <tr>
       <td class="footer">
-        © ${year} FitZone. All rights reserved.
+        <p>© ${year} FitZone. All rights reserved.</p>
+        <p class="unsubscribe">To unsubscribe, <a href="${unsubscribeUrl}">click here</a>.</p>
       </td>
     </tr>
   </table>

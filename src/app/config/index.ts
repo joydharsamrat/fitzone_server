@@ -16,4 +16,5 @@ export default {
   sender_app_pass: process.env.SENDER_APP_PASS,
   reset_pass_url: process.env.RESET_PASS_URL,
   stripe_secret: process.env.STRIPE_SECRET,
+  newsletter_unsubscribe_url: process.env.NEWSLETTER_UNSUBSCRIBE_URL,
 };
