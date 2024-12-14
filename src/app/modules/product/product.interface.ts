@@ -9,4 +9,7 @@ export type TProduct = {
   category: Types.ObjectId;
   featured?: boolean;
   isDeleted?: boolean;
+  discount?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 };

@@ -9,9 +9,8 @@ const createProduct = async (payload: TProduct) => {
 };
 
 const getAllProducts = async (query: Record<string, unknown>) => {
-  // search
+  // Initialize search
   let searchTerm = "";
-
   if (query.searchTerm) {
     searchTerm = query.searchTerm as string;
   }
@@ -19,6 +18,7 @@ const getAllProducts = async (query: Record<string, unknown>) => {
   const searchQuery = Product.find({
     name: { $regex: searchTerm, $options: "i" },
   });
+
   const excFields = [
     "searchTerm",
     "minPrice",
@@ -26,20 +26,20 @@ const getAllProducts = async (query: Record<string, unknown>) => {
     "sort",
     "page",
     "limit",
+    "new",
+    "onSale",
   ];
   const queryObj = { ...query };
-
   excFields.forEach((el) => delete queryObj[el]);
 
-  // filtering based on prise range
+  // Filter by price range
   if (query.minPrice && query.maxPrice) {
     searchQuery.find({
       price: { $gte: Number(query.minPrice), $lte: Number(query.maxPrice) },
     });
   }
 
-  // categories filtering
-
+  // Filter by categories
   if (query.categories) {
     const categories: string[] = (query.categories as string).split(",");
     searchQuery.find({
@@ -47,26 +47,56 @@ const getAllProducts = async (query: Record<string, unknown>) => {
     });
   }
 
-  // sorting
+  // Filter for new products (created in the last 7 days)
+  if (query.new) {
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 7);
+    searchQuery.find({
+      createdAt: { $gte: thirtyDaysAgo },
+    });
+  }
 
+  // Filter for on-sale products
+  if (query.onSale) {
+    searchQuery.find({
+      discount: { $gt: 0 },
+    });
+  }
+
+  // Sorting
   let sort: "asc" | "desc" = "desc";
-
   if (query.sort === "asc" || query.sort === "desc") {
     sort = query.sort;
   }
-
   const sortQuery = searchQuery.sort({ price: sort });
 
-  // pagination
-
+  // Pagination
   const page = Number(query.page) || 1;
-  const limit = Number(query.limit) || 8;
+  const limit = Number(query.limit) || 5;
   const skip = (page - 1) * limit;
 
-  const result = await sortQuery
+  const products = await sortQuery
     .find({ isDeleted: { $ne: true } })
     .limit(limit)
-    .skip(skip);
+    .skip(skip)
+    .lean();
+
+  // Add  fields for on-sale products
+  const result = products.map((product) => {
+    if (product.discount && product.discount > 0) {
+      const finalPrice =
+        product.price - (product.price * product.discount) / 100;
+      return {
+        ...product,
+        hasDiscount: true,
+        finalPrice,
+      };
+    }
+    return {
+      ...product,
+      hasDiscount: false,
+    };
+  });
 
   return result;
 };

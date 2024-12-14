@@ -40,6 +40,7 @@ const productSchema = new Schema<TProduct>(
       type: Boolean,
     },
     isDeleted: { type: Boolean, default: false },
+    discount: { type: Number },
   },
   {
     timestamps: true,
