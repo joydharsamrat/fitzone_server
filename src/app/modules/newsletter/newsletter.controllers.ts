@@ -14,6 +14,18 @@ const handleNewsletterSubscription = catchAsync(async (req, res) => {
   });
 });
 
+const handleGetSubscribers = catchAsync(async (req, res) => {
+  const result = await newsLetterServices.getSubscribers();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Subscribers retrieved successfully",
+    data: result,
+  });
+});
+
 export const newsletterControllers = {
   handleNewsletterSubscription,
+  handleGetSubscribers,
 };
