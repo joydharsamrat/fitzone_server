@@ -154,6 +154,14 @@ const deleteProduct = async (id: string) => {
   return result;
 };
 
+const getLowStockProducts = async () => {
+  const result = await Product.find({
+    isDeleted: { $ne: true },
+    quantity: { $lt: 10 },
+  });
+  return result;
+};
+
 export const productServices = {
   createProduct,
   getAllProducts,
@@ -162,4 +170,5 @@ export const productServices = {
   getProductStock,
   updateProduct,
   deleteProduct,
+  getLowStockProducts,
 };

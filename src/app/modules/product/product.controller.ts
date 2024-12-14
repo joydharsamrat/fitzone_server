@@ -81,6 +81,16 @@ const handleDeleteProduct = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const handleGetLowStockProducts = catchAsync(async (req, res) => {
+  const result = await productServices.getLowStockProducts();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Products retrieved successfully",
+    data: result,
+  });
+});
 
 export const productControllers = {
   handleCreateProduct,
@@ -90,4 +100,5 @@ export const productControllers = {
   handleGetProductStock,
   handleUpdateProduct,
   handleDeleteProduct,
+  handleGetLowStockProducts,
 };

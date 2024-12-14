@@ -24,8 +24,33 @@ const handleGetSubscribers = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const handleUnsubscribe = catchAsync(async (req, res) => {
+  const { token } = req.query;
+  const result = await newsLetterServices.unsubscribe(token as string);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Unsubscribed successfully",
+    data: result,
+  });
+});
+const handleCancelSubscriptionByAdmin = catchAsync(async (req, res) => {
+  const result = await newsLetterServices.cancelSubscriptionByAdmin(
+    req.body.email
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Subscription canceled successfully",
+    data: result,
+  });
+});
 
 export const newsletterControllers = {
   handleNewsletterSubscription,
   handleGetSubscribers,
+  handleUnsubscribe,
+  handleCancelSubscriptionByAdmin,
 };

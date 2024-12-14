@@ -17,4 +17,11 @@ router.get(
   newsletterControllers.handleGetSubscribers
 );
 
+router.put("/unsubscribe", newsletterControllers.handleUnsubscribe);
+router.put(
+  "/cancel-subscription",
+  auth("admin"),
+  newsletterControllers.handleCancelSubscriptionByAdmin
+);
+
 export const newsletterRoutes = router;

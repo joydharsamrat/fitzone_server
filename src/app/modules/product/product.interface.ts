@@ -12,4 +12,5 @@ export type TProduct = {
   discount?: number;
   createdAt?: Date;
   updatedAt?: Date;
+  saleCount?: number;
 };
