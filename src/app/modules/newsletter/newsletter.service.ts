@@ -18,11 +18,9 @@ const subscribeToNewsletter = async (payload: TNewsLetter) => {
 
   // Attempt to send the email
   const result = await sendEmail(template, payload.email, subject);
-
   if (result.success) {
     // Save to database if email is sent successfully
-    const newSubscriber = new Newsletter(payload);
-    await newSubscriber.save();
+    await Newsletter.create(payload);
   } else {
     throw new AppError(
       httpStatus.INTERNAL_SERVER_ERROR,
@@ -31,6 +29,12 @@ const subscribeToNewsletter = async (payload: TNewsLetter) => {
   }
 };
 
+const getSubscribers = async () => {
+  const result = await Newsletter.find();
+  return result;
+};
+
 export const newsLetterServices = {
   subscribeToNewsletter,
+  getSubscribers,
 };
