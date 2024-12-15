@@ -6,6 +6,8 @@ const categoryValidationSchema = z.object({
     icon: z.string({ required_error: "Category icon is required" }),
   }),
 });
+const updateCategoryValidationSchema = categoryValidationSchema.partial();
 export const categoryValidationSchemas = {
   categoryValidationSchema,
+  updateCategoryValidationSchema,
 };
