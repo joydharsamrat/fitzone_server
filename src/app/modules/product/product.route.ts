@@ -20,6 +20,7 @@ router.get(
   auth("admin"),
   productControllers.handleGetLowStockProducts
 );
+router.get("/best-selling", productControllers.handleGetBestSellingProducts);
 router.get("/:id", productControllers.handleGetProductById);
 router.put("/:id", productControllers.handleUpdateProduct);
 

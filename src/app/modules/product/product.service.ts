@@ -161,6 +161,14 @@ const getLowStockProducts = async () => {
   });
   return result;
 };
+const getBestSellingProducts = async () => {
+  const result = await Product.find({
+    isDeleted: { $ne: true },
+  })
+    .sort("-saleCount")
+    .limit(5);
+  return result;
+};
 
 export const productServices = {
   createProduct,
@@ -171,4 +179,5 @@ export const productServices = {
   updateProduct,
   deleteProduct,
   getLowStockProducts,
+  getBestSellingProducts,
 };
