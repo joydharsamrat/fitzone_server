@@ -166,7 +166,7 @@ const getBestSellingProducts = async () => {
     isDeleted: { $ne: true },
   })
     .sort("-saleCount")
-    .limit(5);
+    .limit(8);
   return result;
 };
 

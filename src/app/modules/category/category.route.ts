@@ -23,4 +23,6 @@ router.put(
   categoryControllers.handleUpdateCategory
 );
 
+router.delete("/:id", auth("admin"), categoryControllers.handleDeleteCategory);
+
 export const categoryRoutes = router;

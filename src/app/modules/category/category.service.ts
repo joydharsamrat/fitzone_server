@@ -8,7 +8,7 @@ const createCategory = async (payload: TCategory) => {
   return result;
 };
 const getAllCategories = async () => {
-  const result = await Category.find();
+  const result = await Category.find({ isDeleted: false });
   return result;
 };
 
@@ -31,10 +31,22 @@ const updateCategory = async (id: string, payload: Partial<TCategory>) => {
   }
   return result;
 };
+const deleteCategory = async (id: string) => {
+  const result = await Category.findByIdAndUpdate(
+    id,
+    { $set: { isDeleted: true } },
+    { new: true }
+  );
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, "Category not found");
+  }
+  return result;
+};
 
 export const categoryServices = {
   createCategory,
   getAllCategories,
   updateCategory,
   getCategoryById,
+  deleteCategory,
 };

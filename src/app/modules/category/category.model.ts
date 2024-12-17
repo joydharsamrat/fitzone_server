@@ -10,6 +10,10 @@ const categorySchema = new Schema<TCategory>({
     type: String,
     required: true,
   },
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 export const Category = model<TCategory>("Category", categorySchema);
