@@ -120,10 +120,13 @@ const changePassword = async (
     throw new AppError(httpStatus.NOT_FOUND, "User not found");
   }
 
-  const isPasswordMatched = bcrypt.compare(payload.oldPassword, user.password);
+  const isPasswordMatched = await bcrypt.compare(
+    payload.oldPassword,
+    user.password
+  );
 
   if (!isPasswordMatched) {
-    throw new AppError(httpStatus.FORBIDDEN, "Password not matched !");
+    throw new AppError(httpStatus.FORBIDDEN, "Password not matched!");
   }
 
   const hashedPassword = await bcrypt.hash(
@@ -131,8 +134,9 @@ const changePassword = async (
     Number(config.bcrypt_salts)
   );
 
-  const result = await User.findOneAndUpdate(
-    { _id: user._id, role: user.role },
+  // Update password and passwordChangedAt
+  const updatedUser = await User.findByIdAndUpdate(
+    user._id,
     {
       password: hashedPassword,
       passwordChangedAt: new Date(),
@@ -140,10 +144,17 @@ const changePassword = async (
     { new: true }
   );
 
+  if (!updatedUser) {
+    throw new AppError(
+      httpStatus.INTERNAL_SERVER_ERROR,
+      "Failed to update password!"
+    );
+  }
+
   const jwtPayload = {
-    _id: user._id,
-    email: user.email,
-    role: user.role,
+    _id: updatedUser._id,
+    email: updatedUser.email,
+    role: updatedUser.role,
   };
 
   const accessToken = createToken(
@@ -158,7 +169,7 @@ const changePassword = async (
     config.jwt_refresh_expires_in as string
   );
 
-  return { accessToken, refreshToken, data: result };
+  return { accessToken, refreshToken, data: updatedUser };
 };
 
 const forgotPassword = async (email: string) => {
@@ -180,7 +191,7 @@ const forgotPassword = async (email: string) => {
     "10m"
   );
 
-  const subject = "AutoShine: Reset Password";
+  const subject = "FitZone: Reset Password";
 
   const year = new Date().getFullYear();
 

@@ -53,7 +53,7 @@ export const resetPassEmailTemplate = (url: string, year: number) => `
           alt="Logo"
           class="logo-image"
         />
-        <span class="logo">AutoShine</span>
+        <span class="logo">FitZone</span>
       </td>
     </tr>
     <tr>
@@ -62,12 +62,12 @@ export const resetPassEmailTemplate = (url: string, year: number) => `
         <p>We received a request to <b>Reset Password</b> of your account. Please click the button below to proceed.</p>
         <a href="${url}" class="button">Reset Password</a>
         <p>If you did not request this, please ignore this email.</p>
-        <p>Thank you,<br>The AutoShine Team</p>
+        <p>Thank you,<br>The FitZone Team</p>
       </td>
     </tr>
     <tr>
       <td class="footer">
-        © ${year} AutoShine. All rights reserved.
+        © ${year} FitZone. All rights reserved.
       </td>
     </tr>
   </table>
